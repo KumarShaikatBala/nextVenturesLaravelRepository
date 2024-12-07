@@ -7,6 +7,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -67,4 +68,21 @@ class AuthController extends Controller
 
 
     }
+
+    public function profile()
+    {
+        return response()->json([
+            'data' => auth()->user(),
+            'status' => true,
+            'message' => 'User Profile Retrieved Successfully'
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::user()->currentAccessToken()->delete();
+        Cache::flush();
+        return $this->success([], 'User  logged out Successfully');
+    }
+
 }

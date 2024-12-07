@@ -14,15 +14,6 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     use HttpResponses;
-    /**
-     * @OA\Get(
-     *     path="/api/data.json",
-     *     @OA\Response(
-     *         response="200",
-     *         description="The data"
-     *     )
-     * )
-     */
     private OrderRepositoryInterface $orderRepository;
 
     public function __construct(OrderRepositoryInterface $orderRepository)
@@ -34,7 +25,7 @@ class OrderController extends Controller
 
     public function index(): jsonResponse
     {
-        return $this->success(['data' => $this->orderRepository->getAllOrders()], 'Orders found.', 200);
+        return $this->orderRepository->getAllOrders();
     }
 
     public function store(Request $request): JsonResponse
@@ -95,9 +86,7 @@ class OrderController extends Controller
 
     public function destroy(Request $request): JsonResponse
     {
-        $orderId = $request->route('id');
-        $this->orderRepository->deleteOrder($orderId);
-        return $this->success(['data' => $this->orderRepository->deleteOrder($orderId)], 'Product deleted successfully.', 200);
+      return  $this->orderRepository->deleteOrder($request->route('id'));
     }
 
 

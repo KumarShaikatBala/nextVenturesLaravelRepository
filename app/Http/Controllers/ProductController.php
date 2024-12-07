@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\CommonService\ResourceControllerService;
 use App\Traits\HttpResponses;

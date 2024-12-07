@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,14 +17,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Kumar Shaikat Bala',
             'email' => 'kumarshaikatbala@gmail.com',
             'password' => bcrypt('password'),
             'role' => 'admin',
         ]);
+        User::factory()->create([
+            'name' => 'John Doe',
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('password'),
+            'role' => 'user',
+        ]);
+
+
         DB::table('products')->insert([
             'name' => 'Laravel Book',
             'description' => 'A comprehensive guide to Laravel.',
@@ -82,7 +89,7 @@ class DatabaseSeeder extends Seeder
                     }
                     $total_price = $product->price * $productData['quantity'];
                     $orders[] = [
-                        'user_id' => 1, // Replace with appropriate user ID
+                        'user_id' => 2, // Replace with appropriate user ID
                         'product_id' => $productData['product_id'],
                         'quantity' => $productData['quantity'],
                         'total_price' => $total_price,
@@ -107,7 +114,6 @@ class DatabaseSeeder extends Seeder
             DB::rollBack();
             throw $e;
         }
-
 
 
     }
