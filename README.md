@@ -51,6 +51,27 @@ php artisan test
 
 
 
+# Project Base URL
+http://localhost:3445
+
+
+
+# Project Admin credentials
+
+email: kumarshaikatbala@gmail.com
+
+
+password: password
+
+
+
+# Project User credentials
+
+
+email: customer@gmail.com
+
+password: password
+
 # API Documentation
 
 http://localhost:3445/docs/api

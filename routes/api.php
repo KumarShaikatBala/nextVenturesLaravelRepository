@@ -33,10 +33,10 @@ Route::controller(OrderController::class)->group(function () {
 });
 
 // Create payment route
-Route::post('/payment', [PaymentController::class, 'createPayment']);
+Route::post('/pay', [PaymentController::class, 'createPayment']);
 
 // Execute payment (after PayPal redirects back to your site)
-Route::get('/payment/success', [PaymentController::class, 'executePayment'])->name('payment.success');
+Route::get('/payment-success', [PaymentController::class, 'executePayment'])->name('payment.success');
 
 // Cancel payment (if user cancels payment)
-Route::get('/payment/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+Route::get('/payment-failure', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
