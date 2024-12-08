@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -81,14 +82,11 @@ class PaymentController extends Controller
         $paymentId = $request->input('paymentID');
         $payerId = $request->input('PayerID');
 
-        // Get the access token to authenticate with PayPal
         $token = $this->getAccessToken();
-
         if (!$token) {
             return response()->json(['error' => 'Unable to get PayPal token'], 500);
         }
 
-        // Send payment execution request to PayPal API to complete the transaction
         $executionData = [
             'payer_id' => $payerId,
         ];
@@ -100,13 +98,30 @@ class PaymentController extends Controller
 
         $payment = $response->json();
 
-        if ($payment['state'] == 'approved') {
+        if (isset($payment['state']) && $payment['state'] === 'approved') {
+            // Save payment details to database
+            Payment::create([
+                'product_name' => 'Laravel Book',
+                'amount' => 50.00,
+                'status' => 'success',
+            ]);
+
             return response()->json([
                 'message' => 'Payment successful',
-                'payment' => $payment
+                'payment' => $payment,
             ]);
         } else {
-            return response()->json(['error' => 'Payment execution failed', 'message' => $payment]);
+            // Save failed payment to database
+            Payment::create([
+                'product_name' => 'Laravel Book',
+                'amount' => 50.00,
+                'status' => 'failed',
+            ]);
+
+            return response()->json([
+                'error' => 'Payment execution failed',
+                'message' => $payment,
+            ]);
         }
     }
 
