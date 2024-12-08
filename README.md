@@ -50,6 +50,11 @@ php artisan migrate:fresh --seed
 php artisan test
 # API Documentation
 
+http://localhost:3445/docs/api
+
+
+
+
 ﻿
 
 POST
